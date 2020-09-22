@@ -1,3 +1,3 @@
 # heatmap
 
-ILP Courework 1
+ILP Coursework 1
