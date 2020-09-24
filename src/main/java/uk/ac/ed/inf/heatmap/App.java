@@ -16,10 +16,29 @@ public class App
         System.out.println(testJson);
         System.out.println( "Hello World!" );
         System.out.println( "First parameter is " + args[0] );
-        String[] predictions = parsePredictions("src/main/resources/predicsstions.txt");
+        String[] predictions = parsePredictions("src/main/resources/predictions.txt");
         System.out.println("The predictions are: " + Arrays.toString(predictions));
+        JSONObject json = readJSONFromFile("src/main/resources/no-fly-zones.geojson");
+        System.out.println(json);
     }
 
+    public static JSONObject readJSONFromFile(String filePath) {
+        Path jsonFile = Path.of(filePath);
+//        is this bad practise?
+        JSONObject json = new JSONObject();
+
+        try {
+            String jsonContent = Files.readString(jsonFile);
+            json = new JSONObject(jsonContent);
+        } catch (Exception e) {
+            System.out.println("Error occured during reading of json file:\n    " + e);
+            System.exit(1);
+        }
+
+        return json;
+
+    }
+    
     public static String[] parsePredictions(String filePath) {
         String[] predictions = new String[100];
         Path predictionsFile = Path.of(filePath);
