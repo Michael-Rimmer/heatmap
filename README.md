@@ -12,9 +12,14 @@ ILP Coursework 1
 ## Unknowns
 
 3. Java
-    * read from input file
     * output file
-    * where to put extra files like existing geojson
     * how to handle errors
     * junit testing
+    * docstrings
+    * rename default classes?
     * make api request to render image?
+
+## Next Steps
+
+* understand geojson structure
+* use mapsdk to edit geojson
