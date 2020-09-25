@@ -1,7 +1,6 @@
 {
   "type": "FeatureCollection",
-  "features": [
-    {
+  "features": [{
       "type": "Feature",
       "properties": {
         "name": "Appleton Tower",
@@ -200,6 +199,42 @@
           ]
         ]
       }
-    }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+          "name": "heatmap",
+          "fill-opacity": 0.75,
+          "rgb-string": "#ff0000",
+          "fill": "#ff0000"
+      },
+      "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+              [
+                  [
+                      -3.192473,
+                      55.946233
+                  ],
+                  [
+                      -3.192473,
+                      55.942617
+                  ],
+                  [
+                      -3.184319,
+                      55.942617
+                  ],
+                  [
+                      -3.184319,
+                      55.946233
+                  ],
+                  [
+                      -3.192473,
+                      55.946233
+                  ]
+              ]
+          ]
+      }
+  }
   ]
 }
