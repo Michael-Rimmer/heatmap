@@ -20,6 +20,7 @@ ILP Coursework 1
     * geojson bbox?
 
 ## Next Steps
-I played with geojson to make the outer perimiter, now:
-* load existing json, append then output
-* use google json package https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/JsonElement.html but for understanding check if org would work
+* automate full pipeline:
+    * create heatmap class
+    * create heatmap unit class
+    * create utils class 
