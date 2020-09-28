@@ -1,6 +1,7 @@
 package uk.ac.ed.inf.heatmap;
 
 import java.awt.geom.Point2D;
+import java.util.Arrays;
 
 public class GridCoord {
 
@@ -33,6 +34,7 @@ public class GridCoord {
     }
     
     public String toString() { 
-        return this.topLeft.toString();
+        String[] str = {this.topLeft.toString(), this.topRight.toString(), this.bottomRight.toString(), this.bottomLeft.toString()};
+        return Arrays.toString(str);
     } 
 }
