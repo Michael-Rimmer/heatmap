@@ -20,7 +20,7 @@ ILP Coursework 1
     * geojson bbox?
 
 ## Next Steps
-* automate full pipeline:
-    * create heatmap class
-    * create heatmap unit class
-    * create utils class 
+* confirm colour fill is correct
+* test test and test like im john cochrane
+* can i run from command line exactly like them?
+* docstrings

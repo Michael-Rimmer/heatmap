@@ -55,7 +55,7 @@ public class HeatmapUnit {
     }
 
     private String setFill (int prediction) {
-//       what about low battery and not visited????!!!!
+
         if (prediction >= 0 && prediction <32) {
             return "#00ff00";
         } else if (prediction >= 32 && prediction < 64) {

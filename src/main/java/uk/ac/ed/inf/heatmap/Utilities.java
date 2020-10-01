@@ -1,8 +1,10 @@
 package uk.ac.ed.inf.heatmap;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 public final class Utilities {
 
@@ -18,6 +20,16 @@ public final class Utilities {
         }
 
         return fileContent;
+    }
+    
+    public static void writeFile(String filePath, String content) {
+        Path file = Path.of(filePath);
+        try {
+            Files.writeString(file, (CharSequence) content, StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            System.out.println("Error occured during writing of file: " + filePath + "\n" + e);
+            System.exit(1);
+        }
     }
 
     public static int[][] parsePredictions(String filePath) {
