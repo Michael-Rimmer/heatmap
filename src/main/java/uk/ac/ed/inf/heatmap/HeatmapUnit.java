@@ -7,6 +7,10 @@ import com.mapbox.geojson.Polygon;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Each HeatmapUnit object represents a single grid unit in a Heatmap.
+ */
+
 public class HeatmapUnit {
 
     String name;
@@ -14,16 +18,17 @@ public class HeatmapUnit {
     Double fillOpacity = 0.75;
     int prediction;
 
-    // represent the coordinates for each corner of the polygon
+    // store the coordinates for each corner of the polygon
     Point topLeftCoord;
     Point topRightCoord;
     Point bottomRightCoord;
     Point bottomLeftCoord;
 
     public HeatmapUnit (String name, int prediction, Point topLeftCoord, Point topRightCoord, Point bottomRightCoord, Point bottomLeftCoord) {
+
         this.name = name;
         this.prediction = prediction;
-        this.fill = setFill(prediction);
+        this.fill = setFillColour(prediction);
         this.topLeftCoord = topLeftCoord;
         this.topRightCoord = topRightCoord;
         this.bottomRightCoord = bottomRightCoord;
@@ -54,7 +59,7 @@ public class HeatmapUnit {
         return heatmapUnitFeature.toJson();
     }
 
-    private String setFill (int prediction) {
+    private String setFillColour (int prediction) {
 
         if (prediction >= 0 && prediction <32) {
             return "#00ff00";

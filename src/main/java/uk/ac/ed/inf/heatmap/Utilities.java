@@ -2,18 +2,23 @@ package uk.ac.ed.inf.heatmap;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
+/**
+ * Utilities class contains helper functions for the main App.
+ */
+
 public final class Utilities {
 
-    public static String readFile(String filePath) {
-        Path file = Path.of(filePath);
+    public static String readFileFromResources(String filePath) {
         String fileContent = new String();
 
         try {
-            fileContent = Files.readString(file);
+            InputStream inputStream = Utilities.class.getResourceAsStream(filePath);
+            fileContent = new String(inputStream.readAllBytes());
         } catch (Exception e) {
             System.out.println("Error occured during reading of file: " + filePath + "\n" + e);
             System.exit(1);
