@@ -26,7 +26,7 @@ public final class Utilities {
 
         return fileContent;
     }
-    
+
     public static void writeFile(String filePath, String content) {
         Path file = Path.of(filePath);
         try {
@@ -38,6 +38,7 @@ public final class Utilities {
     }
 
     public static int[][] parsePredictions(String filePath) {
+        // store predictions in a 2D integer array
         int[][] predictions = new int[10][10];
         Path predictionsFile = Path.of(filePath);
         try {
@@ -47,7 +48,9 @@ public final class Utilities {
             while(readLine != null && i < predictions.length) {
                 String[] rowValues = readLine.split(",");
                 for (int j = 0 ; j < 10; j++) {
+                    // remove whitespace
                     int prediction = Integer.parseInt(rowValues[j].replaceAll("\\s+",""));
+                    // validate prediction value
                     if ( prediction < 0 || prediction >= 256) {
                         System.out.println("prediction value must be in range [0,256)");
                         throw new Exception("");

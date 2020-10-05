@@ -1,10 +1,7 @@
 package uk.ac.ed.inf.heatmap;
 
 import com.mapbox.geojson.*;
-
 import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gson.*;
 
 /**
@@ -13,33 +10,55 @@ import com.google.gson.*;
 
 public class Heatmap {
 
-    // boundaryLatLongs elements in format: minLong, minLat, maxLong, maxLat
-    Double[] boundaryLongLats;
+    // boundaryLongLats elements in format: minLong, minLat, maxLong, maxLat
+    final Double[] boundaryLongLats;
 
     // the coordinates for each corner of the heatmap
-    Point topLeft;
-    Point bottomLeft;
-    Point topRight;
-    Point bottomRight;
+    final Point topLeftCoord;
+    final Point bottomLeftCoord;
+    final Point topRightCoord;
+    final Point bottomRightCoord;
 
-    int [][] predictions;
-    HeatmapUnit[][] heatmapGrid;
+    final int [][] predictions;
+    final HeatmapUnit[][] heatmapGrid;
 
     public Heatmap (Double[] boundaryLongLats, int[][] predictions) {
-
         this.boundaryLongLats = boundaryLongLats;
-        this.bottomLeft = Point.fromLngLat(boundaryLongLats[0], boundaryLongLats[1]);
-        this.topRight = Point.fromLngLat(boundaryLongLats[2], boundaryLongLats[3]);
-        this.topLeft = Point.fromLngLat(boundaryLongLats[0], boundaryLongLats[3]);
-        this.bottomRight = Point.fromLngLat(boundaryLongLats[2], boundaryLongLats[1]);
+        this.bottomLeftCoord = Point.fromLngLat(boundaryLongLats[0], boundaryLongLats[1]);
+        this.topRightCoord = Point.fromLngLat(boundaryLongLats[2], boundaryLongLats[3]);
+        this.topLeftCoord = Point.fromLngLat(boundaryLongLats[0], boundaryLongLats[3]);
+        this.bottomRightCoord = Point.fromLngLat(boundaryLongLats[2], boundaryLongLats[1]);
         this.predictions = predictions;
         this.heatmapGrid = createHeatmapGrid();
     }
 
-    public HeatmapUnit[][] createHeatmapGrid() {
+    public Point getTopLeft() {
+        return this.topLeftCoord;
+    }
 
-        int rows = this.predictions.length;
-        int columns = this.predictions[0].length;
+    public Point getBottomLeft() {
+        return this.bottomLeftCoord;
+    }
+
+    public Point getTopRight() {
+        return this.topRightCoord;
+    }
+
+    public Point getBottomRight() {
+        return this.bottomRightCoord;
+    }
+
+    public int[][] getPredictions() {
+        return this.predictions;
+    }
+
+    public HeatmapUnit[][] getHeatmapGrid() {
+        return this.heatmapGrid;
+    }
+
+    private HeatmapUnit[][] createHeatmapGrid() {
+        final int rows = this.predictions.length;
+        final int columns = this.predictions[0].length;
 
         HeatmapUnit[][] grid = new HeatmapUnit[rows][columns];
 
@@ -62,7 +81,7 @@ public class Heatmap {
                 Point bottomLeftCoord = Point.fromLngLat(bottomRightCoord.longitude(), bottomRightCoord.latitude() - latIncrement);
 
                 // instantiate a new HeatmapUnit object
-                String name = String.format("grid_%d,%d", i,j);
+                String name = String.format("grid_%d_%d", i,j);
                 grid[i][j] = new HeatmapUnit(name, this.predictions[i][j] ,topLeftCoord, topRightCoord, bottomRightCoord, bottomLeftCoord);
             }
         }
@@ -70,10 +89,11 @@ public class Heatmap {
         return grid;
     }
 
+    // takes as input a JsonObject representing an existing Geojson featureCollection 
+    // and appends the Geojson for the heatmap
     public void appendHeatmapGeojson(JsonObject featureCollectionJson) {
-
-        int rows = this.predictions.length;
-        int columns = this.predictions[0].length;
+        final int rows = this.predictions.length;
+        final int columns = this.predictions[0].length;
         Gson gson = new Gson();
 
         JsonArray featuresJson = featureCollectionJson.getAsJsonArray("features");
@@ -88,15 +108,14 @@ public class Heatmap {
         }
     }
 
-    // generate geojson for the outer line that surrounds the heatmap
+    // generate Geojson for the outer line that surrounds the heatmap
     private String generateBoundaryLineStringJson() {
-
-        List<Point> boundaryCoords = new ArrayList<>(5);
-        boundaryCoords.add(this.topLeft);
-        boundaryCoords.add(this.topRight);
-        boundaryCoords.add(this.bottomRight);
-        boundaryCoords.add(this.bottomLeft);
-        boundaryCoords.add(this.topLeft);
+        var boundaryCoords = new ArrayList<Point>(5);
+        boundaryCoords.add(this.topLeftCoord);
+        boundaryCoords.add(this.topRightCoord);
+        boundaryCoords.add(this.bottomRightCoord);
+        boundaryCoords.add(this.bottomLeftCoord);
+        boundaryCoords.add(this.topLeftCoord);
 
         LineString boundaryLineString = LineString.fromLngLats(boundaryCoords);
         Feature heatmapFeature = Feature.fromGeometry(boundaryLineString);

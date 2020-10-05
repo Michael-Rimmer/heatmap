@@ -13,19 +13,18 @@ import java.util.ArrayList;
 
 public class HeatmapUnit {
 
-    String name;
-    String fill;
-    Double fillOpacity = 0.75;
-    int prediction;
+    final String name;
+    final String fill;
+    final Double fillOpacity = 0.75;
+    final int prediction;
 
     // store the coordinates for each corner of the polygon
-    Point topLeftCoord;
-    Point topRightCoord;
-    Point bottomRightCoord;
-    Point bottomLeftCoord;
+    final Point topLeftCoord;
+    final Point topRightCoord;
+    final Point bottomRightCoord;
+    final Point bottomLeftCoord;
 
     public HeatmapUnit (String name, int prediction, Point topLeftCoord, Point topRightCoord, Point bottomRightCoord, Point bottomLeftCoord) {
-
         this.name = name;
         this.prediction = prediction;
         this.fill = setFillColour(prediction);
@@ -35,9 +34,25 @@ public class HeatmapUnit {
         this.bottomLeftCoord = bottomLeftCoord;
     }
 
-    public String generateGeojson() {
+    public String getName() {
+        return this.name;
+    }
 
-        List<Point> unitCoords = new ArrayList<>(5);
+    public String getFill() {
+        return this.fill;
+    }
+
+    public Double getFillOpacity() {
+        return this.fillOpacity;
+    }
+
+    public int getPrediction() {
+        return this.prediction;
+    }
+
+    // generate Geojson for single HeatmapUnit object
+    public String generateGeojson() {
+        var unitCoords = new ArrayList<Point>(5);
         unitCoords.add(this.topLeftCoord);
         unitCoords.add(this.topRightCoord);
         unitCoords.add(this.bottomRightCoord);
@@ -45,7 +60,7 @@ public class HeatmapUnit {
         unitCoords.add(this.topLeftCoord);
 
         // Geojson Polygon constructor requires nested lists
-        List<List<Point>> coordsList = new ArrayList<>(1);
+        var coordsList = new ArrayList<List<Point>>(1);
         coordsList.add(unitCoords);
 
         Polygon heatmapUnitPoly = Polygon.fromLngLats(coordsList);
@@ -60,7 +75,6 @@ public class HeatmapUnit {
     }
 
     private String setFillColour (int prediction) {
-
         if (prediction >= 0 && prediction <32) {
             return "#00ff00";
         } else if (prediction >= 32 && prediction < 64) {
